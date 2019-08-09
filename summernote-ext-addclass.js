@@ -53,7 +53,7 @@
                         className: 'dropdown-toggle',
                         contents: '<i ' + context.options.addclass.icon + '\/>',
                         //ui.icon(context.options.icons.magic) + ' ' + ui.icon(context.options.icons.caret, 'span'),
-                        tooltip: 'toggle CSS class', //lang.style.style,
+                        tooltip: 'Toggle CSS class or add template', //lang.style.style,
                         data: {
                             toggle: 'dropdown'
                         }
