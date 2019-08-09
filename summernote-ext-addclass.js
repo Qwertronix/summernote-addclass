@@ -38,6 +38,9 @@
             if (typeof context.options.addclass.htmlTemplates === 'undefined') {
                 context.options.addclass.htmlTemplates = [];
             }
+            if (typeof context.options.addclass.icon === 'undefined') {
+                context.options.addclass.icon = 'class="fa fa-css3"'
+            }
             // ui has renders to build ui elements.
             //  - you can create a button with `ui.button`
             var ui = $.summernote.ui;
@@ -48,7 +51,7 @@
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-toggle',
-                        contents: '<i class="fa fa-css3"\/>' + ' ' + ui.icon(context.options.icons.caret, 'span'),
+                        contents: '<i ' + context.options.addclass.icon + '\/>',
                         //ui.icon(context.options.icons.magic) + ' ' + ui.icon(context.options.icons.caret, 'span'),
                         tooltip: 'toggle CSS class', //lang.style.style,
                         data: {
