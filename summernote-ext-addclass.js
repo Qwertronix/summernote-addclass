@@ -70,7 +70,7 @@
                         item.defaultContent = ''
                     }
                 });
-                var previewItems = classTags.concat(htmlTemplates);
+                var previewItems = classtags.concat(htmlTemplates);
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-toggle',
@@ -126,7 +126,7 @@
                                 $node.before(template.before)
                                 $node.after(template.after)
                             }
-                            
+
                         }
                     })
                 ]).render();
