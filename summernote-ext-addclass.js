@@ -45,7 +45,7 @@
             //  - you can create a button with `ui.button`
             var ui = $.summernote.ui;
 
-            addStyleString(".scrollable-menu {height: auto; max-height: 200px; max-width:300px; overflow-x: hidden;}");
+            addStyleString(".scrollable-menu-addclass {height: auto; max-height: 200px; max-width:300px; overflow-x: hidden;}");
 
             context.memo('button.addclass', function () {
                 return ui.buttonGroup([
@@ -59,7 +59,7 @@
                         }
                     }),
                     ui.dropdown({
-                        className: 'dropdown-style scrollable-menu',
+                        className: 'dropdown-style scrollable-menu-addclass',
                         items: context.options.addclass.classTags,
                         template: function (item) {
 
