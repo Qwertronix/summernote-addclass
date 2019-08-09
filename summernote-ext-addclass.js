@@ -48,6 +48,29 @@
             addStyleString(".scrollable-menu-addclass {height: auto; max-height: 200px; max-width:300px; overflow-x: hidden;}");
 
             context.memo('button.addclass', function () {
+                var classtags = context.options.addclass.classTags.map(function (item) {
+                    if (typeof item === 'string') {
+                        item = {tag: "div", title: item, value: item};
+                    }
+                    item.option = 'class';
+                });
+                var htmlTemplates = context.options.addclass.htmlTemplates.filter(function (item) {
+                    return typeof item === 'object' && item.hasOwnProperty('title') && (item.hasOwnProperty('before') || item.hasOwnProperty('after'));
+                }).map(function (item) {
+                    item.value = item.title
+                    item.option = 'html'
+                    item.tag = 'div'
+                    if (!item.hasOwnProperty('before')) {
+                        item.before = ''
+                    }
+                    if (!item.hasOwnProperty('after')) {
+                        item.after = ''
+                    }
+                    if (!item.hasOwnProperty('defaultContent')) {
+                        item.defaultContent = ''
+                    }
+                });
+                var previewItems = classTags.concat(htmlTemplates);
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-toggle',
@@ -60,25 +83,26 @@
                     }),
                     ui.dropdown({
                         className: 'dropdown-style scrollable-menu-addclass',
-                        items: context.options.addclass.classTags,
+                        items: previewItems,
                         template: function (item) {
-
-                            if (typeof item === 'string') {
-                                item = {tag: "div", title: item, value: item};
-                            }
-
-                            var tag = item.tag;
-                            var title = item.title;
+                            var tag = item.tag || 'div';
+                            var title = item.title || 'UNKNOWN';
                             var style = item.style ? ' style="' + item.style + '" ' : '';
                             var cssclass = item.value ? ' class="' + item.value + '" ' : '';
-                   
 
-                            return '<' + tag + ' ' + style + cssclass + '>' + title + '</' + tag + '>';
+                            if (item.type === 'class') {
+                                return '<' + tag + ' ' + style + cssclass + '>' + title + '</' + tag + '>';
+                            } else if (item.type === 'html') {
+                                return '<i class="far fa-file-code"></i><' + tag + ' ' + style + cssclass + '>' + title + '</' + tag + '>';
+                            } else {
+                                return '<div' + style + cssclass + '>' + title + '</div>';
+                            }
                         },
                         click: function (event, namespace, value) {
 
                             event.preventDefault();
                             value = value || $(event.target).closest('[data-value]').data('value');
+                            var option = $(event.target).closest('[data-option]').data('option');
 
                             var $node = $(context.invoke("restoreTarget"))
                             if ($node.length==0){
@@ -89,9 +113,20 @@
                                 console.debug(context.invoke("restoreTarget"), $node, "toggling class: " + value, window.getSelection());
                             }
 
-
-                            $node.toggleClass(value)
-
+                            if (option === 'class') {
+                                $node.toggleClass(value)
+                            }
+                            if (option === 'html') {
+                                let template = htmlTemplates.find(item => {
+                                    return item.title === value;
+                                })
+                                if ($node.html() == '') {
+                                    $node.html(template.defaultContent)
+                                }
+                                $node.before(template.before)
+                                $node.after(template.after)
+                            }
+                            
                         }
                     })
                 ]).render();
