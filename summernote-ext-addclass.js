@@ -80,8 +80,6 @@
                             event.preventDefault();
                             value = value || $(event.target).closest('[data-value]').data('value');
 
-
-
                             var $node = $(context.invoke("restoreTarget"))
                             if ($node.length==0){
                                 $node = $(document.getSelection().focusNode.parentElement, ".note-editable");
@@ -93,7 +91,6 @@
 
 
                             $node.toggleClass(value)
-
 
                         }
                     })
