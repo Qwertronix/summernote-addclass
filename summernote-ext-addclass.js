@@ -92,7 +92,6 @@
                         }
                     })
                 ]).render();
-                return $optionList;
             });
 
             function addStyleString(str) {
