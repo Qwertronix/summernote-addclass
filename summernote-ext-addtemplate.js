@@ -26,35 +26,35 @@
         /**
          * @param {Object} context - context object has status of editor.
          */
-        'addclass': function (context) {
+        'addtemplate': function (context) {
             var self = this;
-            if (typeof context.options.addclass === 'undefined') {
-                context.options.addclass = {};
+            if (typeof context.options.addtemplate === 'undefined') {
+                context.options.addtemplate = {};
             }
-            if (typeof context.options.addclass.classTags === 'undefined') {
-                context.options.addclass.classTags = ["jumbotron", "lead","img-rounded","img-circle", "img-responsive","btn", "btn btn-success","btn btn-danger","text-muted", "text-primary", "text-warning", "text-danger", "text-success", "table-bordered", "table-responsive", "alert", "alert alert-success", "alert alert-info", "alert alert-warning", "alert alert-danger", "visible-sm", "hidden-xs", "hidden-md", "hidden-lg", "hidden-print"];
-                //  console.log("Please define your summernote.options.addclass.classTags array");
+            if (typeof context.options.addtemplate.classTags === 'undefined') {
+                context.options.addtemplate.classTags = ["jumbotron", "lead","img-rounded","img-circle", "img-responsive","btn", "btn btn-success","btn btn-danger","text-muted", "text-primary", "text-warning", "text-danger", "text-success", "table-bordered", "table-responsive", "alert", "alert alert-success", "alert alert-info", "alert alert-warning", "alert alert-danger", "visible-sm", "hidden-xs", "hidden-md", "hidden-lg", "hidden-print"];
+                //  console.log("Please define your summernote.options.addtemplate.classTags array");
             }
-            if (typeof context.options.addclass.htmlTemplates === 'undefined') {
-                context.options.addclass.htmlTemplates = [{title: 'Card', before:'<div class="card" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Card title</h5><h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6><p class="card-text">', defaultContent:'Some quick example text to build on the card title and make up the bulk of the card\'s content.', after:'</p><a href="#" class="card-link">Card link</a></div></div>',}];
+            if (typeof context.options.addtemplate.htmlTemplates === 'undefined') {
+                context.options.addtemplate.htmlTemplates = [{title: 'Card', before:'<div class="card" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Card title</h5><h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6><p class="card-text">', defaultContent:'Some quick example text to build on the card title and make up the bulk of the card\'s content.', after:'</p><a href="#" class="card-link">Card link</a></div></div>',}];
             }
-            if (typeof context.options.addclass.icon === 'undefined') {
-                context.options.addclass.icon = 'class="fa fa-css3"'
+            if (typeof context.options.addtemplate.icon === 'undefined') {
+                context.options.addtemplate.icon = 'class="fa fa-css3"'
             }
             // ui has renders to build ui elements.
             //  - you can create a button with `ui.button`
             var ui = $.summernote.ui;
 
-            addStyleString(".scrollable-menu-addclass {height: auto; max-height: 200px; max-width:300px; overflow-x: hidden;}");
+            addStyleString(".scrollable-menu-addtemplate {height: auto; max-height: 200px; max-width:300px; overflow-x: hidden;}");
 
-            context.memo('button.addclass', function () {
-                var classtags = context.options.addclass.classTags.map(function (item) {
+            context.memo('button.addtemplate', function () {
+                var classtags = context.options.addtemplate.classTags.map(function (item) {
                     if (typeof item === 'string') {
                         item = {tag: "div", title: item, value: item};
                     }
                     item.option = 'class';
                 });
-                var htmlTemplates = context.options.addclass.htmlTemplates.filter(function (item) {
+                var htmlTemplates = context.options.addtemplate.htmlTemplates.filter(function (item) {
                     return typeof item === 'object' && item.hasOwnProperty('title') && (item.hasOwnProperty('before') || item.hasOwnProperty('after'));
                 }).map(function (item) {
                     item.value = item.title
@@ -74,7 +74,7 @@
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-toggle',
-                        contents: '<i ' + context.options.addclass.icon + '\/>',
+                        contents: '<i ' + context.options.addtemplate.icon + '\/>',
                         //ui.icon(context.options.icons.magic) + ' ' + ui.icon(context.options.icons.caret, 'span'),
                         tooltip: 'Toggle CSS class or add template', //lang.style.style,
                         data: {
@@ -82,7 +82,7 @@
                         }
                     }),
                     ui.dropdown({
-                        className: 'dropdown-style scrollable-menu-addclass',
+                        className: 'dropdown-style scrollable-menu-addtemplate',
                         items: previewItems,
                         template: function (item) {
                             var tag = item.tag || 'div';
@@ -109,7 +109,7 @@
                                 $node = $(document.getSelection().focusNode.parentElement, ".note-editable");
                             }
                             
-                            if (typeof context.options.addclass !== 'undefined' && typeof context.options.addclass.debug !== 'undefined' && context.options.addclass.debug) {
+                            if (typeof context.options.addtemplate !== 'undefined' && typeof context.options.addtemplate.debug !== 'undefined' && context.options.addtemplate.debug) {
                                 console.debug(context.invoke("restoreTarget"), $node, "toggling class: " + value, window.getSelection());
                             }
 

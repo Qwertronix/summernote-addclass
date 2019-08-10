@@ -1,9 +1,9 @@
-# summernote-addclass
+# summernote-addtemplate
 A plugin for summernote editor to allow user to add custom css classes (custom styling) to the selected elements 
 
 [Live demo](https://jsfiddle.net/rastrano/dtgr5q29/) (check the CSS3 icon button)
 
-[Getting started](https://github.com/creativeprogramming/summernote-addclass/wiki/) 
+[Getting started](https://github.com/creativeprogramming/summernote-addtemplate/wiki/) 
 
 license: MIT
 
