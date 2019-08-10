@@ -49,14 +49,17 @@
 
             context.memo('button.addtemplate', function () {
                 var classtags = context.options.addtemplate.classTags.map(function (item) {
+                    if (typeof item === 'undefined') {console.log(item)}
                     if (typeof item === 'string') {
                         item = {tag: "div", title: item, value: item};
                     }
                     item.option = 'class';
+                    return item;
                 });
                 var htmlTemplates = context.options.addtemplate.htmlTemplates.filter(function (item) {
                     return typeof item === 'object' && item.hasOwnProperty('title') && (item.hasOwnProperty('before') || item.hasOwnProperty('after'));
                 }).map(function (item) {
+                    if (typeof item === 'undefined') {console.log(item)}
                     item.value = item.title
                     item.option = 'html'
                     item.tag = 'div'
@@ -69,8 +72,9 @@
                     if (!item.hasOwnProperty('defaultContent')) {
                         item.defaultContent = ''
                     }
+                    return item;
                 });
-                var previewItems = classtags.concat(htmlTemplates);
+                var templateItems = classtags.concat(htmlTemplates);
                 return ui.buttonGroup([
                     ui.button({
                         className: 'dropdown-toggle',
@@ -83,11 +87,12 @@
                     }),
                     ui.dropdown({
                         className: 'dropdown-style scrollable-menu-addtemplate',
-                        items: previewItems,
+                        items: templateItems,
                         template: function (item) {
                             var tag = item.tag || 'div';
                             var title = item.title || 'UNKNOWN';
                             var style = item.style ? ' style="' + item.style + '" ' : '';
+                            if (typeof item === 'undefined') {console.log(item)}
                             var cssclass = item.value ? ' class="' + item.value + '" ' : '';
 
                             if (item.type === 'class') {
@@ -109,22 +114,28 @@
                                 $node = $(document.getSelection().focusNode.parentElement, ".note-editable");
                             }
                             
+                            var selectedItem = templateItems.find(item => {
+                                return item.value === value;
+                            })
+
                             if (typeof context.options.addtemplate !== 'undefined' && typeof context.options.addtemplate.debug !== 'undefined' && context.options.addtemplate.debug) {
-                                console.debug(context.invoke("restoreTarget"), $node, "toggling class: " + value, window.getSelection());
+                                console.debug("RestoreTarget: ", context.invoke("restoreTarget"), 
+                                              "\nNode: ", $node, 
+                                              "\ntoggling class: " + value, 
+                                              "\nSelection: ", window.getSelection(),
+                                              "\nEvent: ", event,
+                                              "\nselectedItem", selectedItem,
+                                              "\noption: ", option);
                             }
 
-                            if (option === 'class') {
-                                $node.toggleClass(value)
+                            if (selectedItem.option === 'class') {
+                                $node.toggleClass(value);
                             }
-                            if (option === 'html') {
-                                let template = htmlTemplates.find(item => {
-                                    return item.title === value;
-                                })
+                            if (selectedItem.option === 'html') {
                                 if ($node.html() == '') {
-                                    $node.html(template.defaultContent)
+                                    $node.html(selectedItem.defaultContent);
                                 }
-                                $node.before(template.before)
-                                $node.after(template.after)
+                                $node.html(selectedItem.before + $node.html() + selectedItem.after);
                             }
 
                         }
